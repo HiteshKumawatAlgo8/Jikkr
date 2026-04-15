@@ -4,7 +4,8 @@ document.addEventListener('click', function (event) {
   const toggle = event.target.closest('[data-mobile-menu-toggle]');
   if (toggle) {
     const header = document.querySelector('.site-header');
-    header?.classList.toggle('is-open');
+    const isOpen = header?.classList.toggle('is-open') || false;
+    toggle.setAttribute('aria-expanded', String(isOpen));
   }
 
   const qtyButton = event.target.closest('[data-qty-button]');

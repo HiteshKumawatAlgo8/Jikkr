@@ -81,6 +81,7 @@
       const rect = root.getBoundingClientRect();
       const scrollable = Math.max(root.offsetHeight - window.innerHeight, 1);
       const progress = clamp(-rect.top / scrollable, 0, 1);
+      const mobileMotion = window.innerWidth < 768 ? 0.62 : 1;
 
       const s1 = sceneOpacity(progress, windows.s1.enterStart, windows.s1.enterEnd, windows.s1.exitStart, windows.s1.exitEnd);
       const s2 = sceneOpacity(progress, windows.s2.enterStart, windows.s2.enterEnd, windows.s2.exitStart, windows.s2.exitEnd);
@@ -104,8 +105,8 @@
         }
         if (heroCard) {
           heroCard.style.opacity = String(clamp(1 - outT * 1.05, 0, 1));
-          const enterY = dataNumber(heroCard, 'enterY', 0);
-          const exitY = dataNumber(heroCard, 'exitY', -88);
+          const enterY = dataNumber(heroCard, 'enterY', 0) * mobileMotion;
+          const exitY = dataNumber(heroCard, 'exitY', -88) * mobileMotion;
           const scaleFrom = dataNumber(heroCard, 'scaleFrom', 1);
           const scaleTo = dataNumber(heroCard, 'scaleTo', 1.025);
           heroCard.style.transform = `translate3d(0, ${lerp(enterY, exitY, outT)}px, 0) scale(${lerp(scaleFrom, scaleTo, outT)})`;
@@ -125,9 +126,9 @@
           manifestoText.style.transform = `scale(${lerp(1.04, 1.0, inT)}) translate3d(0, ${lerp(18, -8, outT)}px, 0)`;
         }
         manifestoCards.forEach((card, index) => {
-          const offset = dataNumber(card, 'enterX', index === 0 ? -80 : index === 1 ? 80 : 24);
-          const rise = dataNumber(card, 'enterY', index === 2 ? 80 : 54);
-          const exitY = dataNumber(card, 'exitY', -24);
+          const offset = dataNumber(card, 'enterX', index === 0 ? -80 : index === 1 ? 80 : 24) * mobileMotion;
+          const rise = dataNumber(card, 'enterY', index === 2 ? 80 : 54) * mobileMotion;
+          const exitY = dataNumber(card, 'exitY', -24) * mobileMotion;
           const scaleFrom = dataNumber(card, 'scaleFrom', 0.92);
           const scaleTo = dataNumber(card, 'scaleTo', 1.02);
           const fadeMult = dataNumber(card, 'fadeMult', 0.4);
@@ -160,9 +161,9 @@
         galleryCards.forEach((card, index) => {
           const staggerAmount = dataNumber(card, 'stagger', 0.07);
           const stagger = clamp(inT - index * staggerAmount, 0, 1);
-          const xOffset = dataNumber(card, 'enterX', [-80, 56, 88, -48, 36][index] || 0);
-          const yOffset = dataNumber(card, 'enterY', [70, 52, 38, 60, 40][index] || 50);
-          const exitY = dataNumber(card, 'exitY', -24);
+          const xOffset = dataNumber(card, 'enterX', [-80, 56, 88, -48, 36][index] || 0) * mobileMotion;
+          const yOffset = dataNumber(card, 'enterY', [70, 52, 38, 60, 40][index] || 50) * mobileMotion;
+          const exitY = dataNumber(card, 'exitY', -24) * mobileMotion;
           const scaleFrom = dataNumber(card, 'scaleFrom', 1);
           const scaleTo = dataNumber(card, 'scaleTo', 1);
           const fadeMult = dataNumber(card, 'fadeMult', 0.35);
@@ -193,9 +194,9 @@
         }
         boardChips.forEach((chip, index) => {
           const stagger = clamp(inT - 0.18 - index * 0.1, 0, 1);
-          const xOffset = dataNumber(chip, 'enterX', index === 0 ? -30 : 30);
-          const yOffset = dataNumber(chip, 'enterY', 26);
-          const exitY = dataNumber(chip, 'exitY', -12);
+          const xOffset = dataNumber(chip, 'enterX', index === 0 ? -30 : 30) * mobileMotion;
+          const yOffset = dataNumber(chip, 'enterY', 26) * mobileMotion;
+          const exitY = dataNumber(chip, 'exitY', -12) * mobileMotion;
           const scaleFrom = dataNumber(chip, 'scaleFrom', 0.92);
           const scaleTo = dataNumber(chip, 'scaleTo', 1);
           const restRotation = cssNumber(chip, '--es-card-rotate', 0);
