@@ -499,6 +499,10 @@
   --es-card-height: 48%;
 }
 
+.es-story__info-visual {
+  transform: rotate(var(--es-card-rotate, 0deg));
+}
+
 .es-story__return-headline {
   position: absolute;
   left: 4%;

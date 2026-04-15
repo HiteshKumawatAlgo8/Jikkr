@@ -15,6 +15,30 @@
   data-scroll-height="{{ section.settings.scroll_height_desktop }}"
   data-mobile-height="{{ section.settings.scroll_height_mobile }}"
   data-mobile-breakpoint="768"
+  data-s1-enter-start="{{ section.settings.scene1_enter_start }}"
+  data-s1-enter-end="{{ section.settings.scene1_enter_end }}"
+  data-s1-exit-start="{{ section.settings.scene1_exit_start }}"
+  data-s1-exit-end="{{ section.settings.scene1_exit_end }}"
+  data-s2-enter-start="{{ section.settings.scene2_enter_start }}"
+  data-s2-enter-end="{{ section.settings.scene2_enter_end }}"
+  data-s2-exit-start="{{ section.settings.scene2_exit_start }}"
+  data-s2-exit-end="{{ section.settings.scene2_exit_end }}"
+  data-s3-enter-start="{{ section.settings.scene3_enter_start }}"
+  data-s3-enter-end="{{ section.settings.scene3_enter_end }}"
+  data-s3-exit-start="{{ section.settings.scene3_exit_start }}"
+  data-s3-exit-end="{{ section.settings.scene3_exit_end }}"
+  data-s4-enter-start="{{ section.settings.scene4_enter_start }}"
+  data-s4-enter-end="{{ section.settings.scene4_enter_end }}"
+  data-s4-exit-start="{{ section.settings.scene4_exit_start }}"
+  data-s4-exit-end="{{ section.settings.scene4_exit_end }}"
+  data-s5-enter-start="{{ section.settings.scene5_enter_start }}"
+  data-s5-enter-end="{{ section.settings.scene5_enter_end }}"
+  data-s5-exit-start="{{ section.settings.scene5_exit_start }}"
+  data-s5-exit-end="{{ section.settings.scene5_exit_end }}"
+  data-s6-enter-start="{{ section.settings.scene6_enter_start }}"
+  data-s6-enter-end="{{ section.settings.scene6_enter_end }}"
+  data-s6-exit-start="{{ section.settings.scene6_exit_start }}"
+  data-s6-exit-end="{{ section.settings.scene6_exit_end }}"
   style="
     --es-outer-frame: {{ section.settings.outer_frame_color }};
     --es-inner-surface: {{ section.settings.inner_surface_color }};
@@ -67,9 +91,19 @@
                 <div class="es-story__eyebrow">{{ section.settings.hero_eyebrow }}</div>
                 <h2 class="es-story__title es-story__title--hero">{{ section.settings.hero_title | newline_to_br }}</h2>
               </div>
-              <div class="es-story__hero-card" data-hero-card>
+              <div
+                class="es-story__hero-card"
+                data-hero-card
+                data-enter-y="{{ section.settings.hero_card_enter_y }}"
+                data-exit-y="{{ section.settings.hero_card_exit_y }}"
+                data-scale-from="{{ section.settings.hero_card_scale_from | divided_by: 100.0 }}"
+                data-scale-to="{{ section.settings.hero_card_scale_to | divided_by: 100.0 }}"
+                style="width: min({{ section.settings.hero_card_width }}vw, {{ section.settings.hero_card_max_width }}px); min-height: {{ section.settings.hero_card_height }}vh;"
+              >
                 <div class="es-story__card-media">
-                  {% if section.settings.hero_card_image != blank %}
+                  {% if section.settings.hero_card_media_type == 'video' and section.settings.hero_card_video != blank %}
+                    {{ section.settings.hero_card_video | video_tag: image_size: '900x', autoplay: true, loop: true, muted: true, controls: false }}
+                  {% elsif section.settings.hero_card_image != blank %}
                     <img
                       src="{{ section.settings.hero_card_image | image_url: width: 900 }}"
                       alt="{{ section.settings.hero_card_image.alt | escape }}"
@@ -97,9 +131,22 @@
               </div>
               <div class="es-story__manifesto-cards" data-manifesto-cards>
                 {% for block in scene2_cards limit: 3 %}
-                  <div class="es-story__manifesto-card es-story__manifesto-card--{{ forloop.index }}" {{ block.shopify_attributes }}>
+                  <div
+                    class="es-story__manifesto-card es-story__manifesto-card--{{ forloop.index }}"
+                    style="--es-card-left: {{ block.settings.x_position }}%; --es-card-right: auto; --es-card-top: {{ block.settings.y_position }}%; --es-card-bottom: auto; --es-card-width: {{ block.settings.width }}vw; --es-card-height: {{ block.settings.height }}vh; --es-card-rotate: {{ block.settings.rotation }}deg;"
+                    data-enter-x="{{ block.settings.enter_x }}"
+                    data-enter-y="{{ block.settings.enter_y }}"
+                    data-exit-y="{{ block.settings.exit_y }}"
+                    data-scale-from="{{ block.settings.scale_from | divided_by: 100.0 }}"
+                    data-scale-to="{{ block.settings.scale_to | divided_by: 100.0 }}"
+                    data-fade-mult="{{ block.settings.fade_strength | divided_by: 100.0 }}"
+                    data-stagger="{{ block.settings.stagger | divided_by: 100.0 }}"
+                    {{ block.shopify_attributes }}
+                  >
                     <div class="es-story__card-media">
-                      {% if block.settings.image != blank %}
+                      {% if block.settings.media_type == 'video' and block.settings.video != blank %}
+                        {{ block.settings.video | video_tag: image_size: '900x', autoplay: true, loop: true, muted: true, controls: false }}
+                      {% elsif block.settings.image != blank %}
                         <img
                           src="{{ block.settings.image | image_url: width: 900 }}"
                           alt="{{ block.settings.image.alt | escape }}"
@@ -129,7 +176,9 @@
             <div class="es-story__panel es-story__panel--cream"></div>
             <div class="es-story__inner es-story__inner--gallery">
               <div class="es-story__gallery-strip">
-                {% if section.settings.scene3_strip_image != blank %}
+                {% if section.settings.scene3_strip_media_type == 'video' and section.settings.scene3_strip_video != blank %}
+                  {{ section.settings.scene3_strip_video | video_tag: image_size: '2400x', autoplay: true, loop: true, muted: true, controls: false }}
+                {% elsif section.settings.scene3_strip_image != blank %}
                   <img
                     src="{{ section.settings.scene3_strip_image | image_url: width: 2400 }}"
                     alt="{{ section.settings.scene3_strip_image.alt | escape }}"
@@ -144,9 +193,22 @@
               <div class="es-story__gallery-copy">{{ section.settings.scene3_copy }}</div>
               <div class="es-story__gallery-collage" data-gallery-collage>
                 {% for block in scene3_cards limit: 5 %}
-                  <div class="es-story__gallery-card es-story__gallery-card--{{ forloop.index }}" {{ block.shopify_attributes }}>
+                  <div
+                    class="es-story__gallery-card es-story__gallery-card--{{ forloop.index }}"
+                    style="--es-card-left: {{ block.settings.x_position }}%; --es-card-right: auto; --es-card-top: {{ block.settings.y_position }}%; --es-card-bottom: auto; --es-card-width: {{ block.settings.width }}vw; --es-card-height: {{ block.settings.height }}vh; --es-card-rotate: {{ block.settings.rotation }}deg;"
+                    data-enter-x="{{ block.settings.enter_x }}"
+                    data-enter-y="{{ block.settings.enter_y }}"
+                    data-exit-y="{{ block.settings.exit_y }}"
+                    data-scale-from="{{ block.settings.scale_from | divided_by: 100.0 }}"
+                    data-scale-to="{{ block.settings.scale_to | divided_by: 100.0 }}"
+                    data-fade-mult="{{ block.settings.fade_strength | divided_by: 100.0 }}"
+                    data-stagger="{{ block.settings.stagger | divided_by: 100.0 }}"
+                    {{ block.shopify_attributes }}
+                  >
                     <div class="es-story__card-media">
-                      {% if block.settings.image != blank %}
+                      {% if block.settings.media_type == 'video' and block.settings.video != blank %}
+                        {{ block.settings.video | video_tag: image_size: '1000x', autoplay: true, loop: true, muted: true, controls: false }}
+                      {% elsif block.settings.image != blank %}
                         <img
                           src="{{ block.settings.image | image_url: width: 1000 }}"
                           alt="{{ block.settings.image.alt | escape }}"
@@ -174,9 +236,19 @@
               <div class="es-story__symbols">{{ section.settings.scene4_symbols }}</div>
               <div class="es-story__board-headline">{{ section.settings.scene4_headline | newline_to_br }}</div>
               <div class="es-story__board-chips" data-board-chips>
-                <div class="es-story__board-chip es-story__board-chip--1">
+                <div
+                  class="es-story__board-chip es-story__board-chip--1"
+                  style="--es-card-left: {{ section.settings.scene4_chip1_x }}%; --es-card-right: auto; --es-card-top: {{ section.settings.scene4_chip1_y }}%; --es-card-bottom: auto; --es-card-width: {{ section.settings.scene4_chip1_width }}%; --es-card-height: {{ section.settings.scene4_chip1_height }}%; --es-card-rotate: {{ section.settings.scene4_chip1_rotation }}deg;"
+                  data-enter-x="{{ section.settings.scene4_chip1_enter_x }}"
+                  data-enter-y="{{ section.settings.scene4_chip1_enter_y }}"
+                  data-exit-y="{{ section.settings.scene4_chip1_exit_y }}"
+                  data-scale-from="{{ section.settings.scene4_chip1_scale_from | divided_by: 100.0 }}"
+                  data-scale-to="{{ section.settings.scene4_chip1_scale_to | divided_by: 100.0 }}"
+                >
                   <div class="es-story__card-media">
-                    {% if section.settings.scene4_chip_image_1 != blank %}
+                    {% if section.settings.scene4_chip1_media_type == 'video' and section.settings.scene4_chip_video_1 != blank %}
+                      {{ section.settings.scene4_chip_video_1 | video_tag: image_size: '800x', autoplay: true, loop: true, muted: true, controls: false }}
+                    {% elsif section.settings.scene4_chip_image_1 != blank %}
                       <img
                         src="{{ section.settings.scene4_chip_image_1 | image_url: width: 800 }}"
                         alt="{{ section.settings.scene4_chip_image_1.alt | escape }}"
@@ -189,9 +261,19 @@
                     {% endif %}
                   </div>
                 </div>
-                <div class="es-story__board-chip es-story__board-chip--2">
+                <div
+                  class="es-story__board-chip es-story__board-chip--2"
+                  style="--es-card-left: {{ section.settings.scene4_chip2_x }}%; --es-card-right: auto; --es-card-top: {{ section.settings.scene4_chip2_y }}%; --es-card-bottom: auto; --es-card-width: {{ section.settings.scene4_chip2_width }}%; --es-card-height: {{ section.settings.scene4_chip2_height }}%; --es-card-rotate: {{ section.settings.scene4_chip2_rotation }}deg;"
+                  data-enter-x="{{ section.settings.scene4_chip2_enter_x }}"
+                  data-enter-y="{{ section.settings.scene4_chip2_enter_y }}"
+                  data-exit-y="{{ section.settings.scene4_chip2_exit_y }}"
+                  data-scale-from="{{ section.settings.scene4_chip2_scale_from | divided_by: 100.0 }}"
+                  data-scale-to="{{ section.settings.scene4_chip2_scale_to | divided_by: 100.0 }}"
+                >
                   <div class="es-story__card-media">
-                    {% if section.settings.scene4_chip_image_2 != blank %}
+                    {% if section.settings.scene4_chip2_media_type == 'video' and section.settings.scene4_chip_video_2 != blank %}
+                      {{ section.settings.scene4_chip_video_2 | video_tag: image_size: '800x', autoplay: true, loop: true, muted: true, controls: false }}
+                    {% elsif section.settings.scene4_chip_image_2 != blank %}
                       <img
                         src="{{ section.settings.scene4_chip_image_2 | image_url: width: 800 }}"
                         alt="{{ section.settings.scene4_chip_image_2.alt | escape }}"
@@ -245,9 +327,14 @@
                   <strong>{{ section.settings.scene5_info_title }}</strong>
                   <p>{{ section.settings.scene5_info_copy }}</p>
                 </div>
-                <div class="es-story__info-visual es-story__info-visual--1">
+                <div
+                  class="es-story__info-visual es-story__info-visual--1"
+                  style="--es-card-left: {{ section.settings.scene5_card1_x }}%; --es-card-right: auto; --es-card-top: {{ section.settings.scene5_card1_y }}%; --es-card-bottom: auto; --es-card-width: {{ section.settings.scene5_card1_width }}%; --es-card-height: {{ section.settings.scene5_card1_height }}%; --es-card-rotate: {{ section.settings.scene5_card1_rotation }}deg;"
+                >
                   <div class="es-story__card-media">
-                    {% if section.settings.scene5_card_image_1 != blank %}
+                    {% if section.settings.scene5_card1_media_type == 'video' and section.settings.scene5_card_video_1 != blank %}
+                      {{ section.settings.scene5_card_video_1 | video_tag: image_size: '900x', autoplay: true, loop: true, muted: true, controls: false }}
+                    {% elsif section.settings.scene5_card_image_1 != blank %}
                       <img
                         src="{{ section.settings.scene5_card_image_1 | image_url: width: 900 }}"
                         alt="{{ section.settings.scene5_card_image_1.alt | escape }}"
@@ -260,9 +347,14 @@
                     {% endif %}
                   </div>
                 </div>
-                <div class="es-story__info-visual es-story__info-visual--2">
+                <div
+                  class="es-story__info-visual es-story__info-visual--2"
+                  style="--es-card-left: {{ section.settings.scene5_card2_x }}%; --es-card-right: auto; --es-card-top: {{ section.settings.scene5_card2_y }}%; --es-card-bottom: auto; --es-card-width: {{ section.settings.scene5_card2_width }}%; --es-card-height: {{ section.settings.scene5_card2_height }}%; --es-card-rotate: {{ section.settings.scene5_card2_rotation }}deg;"
+                >
                   <div class="es-story__card-media">
-                    {% if section.settings.scene5_card_image_2 != blank %}
+                    {% if section.settings.scene5_card2_media_type == 'video' and section.settings.scene5_card_video_2 != blank %}
+                      {{ section.settings.scene5_card_video_2 | video_tag: image_size: '900x', autoplay: true, loop: true, muted: true, controls: false }}
+                    {% elsif section.settings.scene5_card_image_2 != blank %}
                       <img
                         src="{{ section.settings.scene5_card_image_2 | image_url: width: 900 }}"
                         alt="{{ section.settings.scene5_card_image_2.alt | escape }}"
@@ -316,6 +408,31 @@
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "scroll_height_desktop", "min": 320, "max": 900, "step": 10, "unit": "vh", "label": "Desktop scroll height", "default": 580 },
     { "type": "range", "id": "scroll_height_mobile", "min": 280, "max": 860, "step": 10, "unit": "vh", "label": "Mobile scroll height", "default": 520 },
+    { "type": "header", "content": "Scroll timing in percent" },
+    { "type": "range", "id": "scene1_enter_start", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 1 enter starts", "default": 0 },
+    { "type": "range", "id": "scene1_enter_end", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 1 fully revealed", "default": 7 },
+    { "type": "range", "id": "scene1_exit_start", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 1 exit starts", "default": 10 },
+    { "type": "range", "id": "scene1_exit_end", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 1 hidden", "default": 18 },
+    { "type": "range", "id": "scene2_enter_start", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 2 enter starts", "default": 12 },
+    { "type": "range", "id": "scene2_enter_end", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 2 fully revealed", "default": 22 },
+    { "type": "range", "id": "scene2_exit_start", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 2 exit starts", "default": 28 },
+    { "type": "range", "id": "scene2_exit_end", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 2 hidden", "default": 36 },
+    { "type": "range", "id": "scene3_enter_start", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 3 enter starts", "default": 31 },
+    { "type": "range", "id": "scene3_enter_end", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 3 fully revealed", "default": 40 },
+    { "type": "range", "id": "scene3_exit_start", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 3 exit starts", "default": 47 },
+    { "type": "range", "id": "scene3_exit_end", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 3 hidden", "default": 56 },
+    { "type": "range", "id": "scene4_enter_start", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 4 enter starts", "default": 50 },
+    { "type": "range", "id": "scene4_enter_end", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 4 fully revealed", "default": 58 },
+    { "type": "range", "id": "scene4_exit_start", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 4 exit starts", "default": 67 },
+    { "type": "range", "id": "scene4_exit_end", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 4 hidden", "default": 75 },
+    { "type": "range", "id": "scene5_enter_start", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 5 enter starts", "default": 70 },
+    { "type": "range", "id": "scene5_enter_end", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 5 fully revealed", "default": 78 },
+    { "type": "range", "id": "scene5_exit_start", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 5 exit starts", "default": 86 },
+    { "type": "range", "id": "scene5_exit_end", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 5 hidden", "default": 93 },
+    { "type": "range", "id": "scene6_enter_start", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 6 enter starts", "default": 88 },
+    { "type": "range", "id": "scene6_enter_end", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 6 fully revealed", "default": 95 },
+    { "type": "range", "id": "scene6_exit_start", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 6 exit starts", "default": 98 },
+    { "type": "range", "id": "scene6_exit_end", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Scene 6 hidden", "default": 100 },
     { "type": "range", "id": "stage_max_width", "min": 1100, "max": 1900, "step": 20, "unit": "px", "label": "Stage max width", "default": 1520 },
     { "type": "range", "id": "stage_min_height", "min": 70, "max": 100, "step": 1, "unit": "vh", "label": "Stage min height", "default": 92 },
     { "type": "range", "id": "frame_padding", "min": 12, "max": 48, "step": 2, "unit": "px", "label": "Frame padding", "default": 24 },
@@ -347,7 +464,19 @@
     { "type": "image_picker", "id": "hero_background", "label": "Hero background image" },
     { "type": "text", "id": "hero_eyebrow", "label": "Hero eyebrow", "default": "New collection / Studio edit" },
     { "type": "textarea", "id": "hero_title", "label": "Hero title", "default": "THE\nGREAT\nESCAPE" },
+    { "type": "select", "id": "hero_card_media_type", "label": "Hero card media type", "default": "image", "options": [
+      { "value": "image", "label": "Image" },
+      { "value": "video", "label": "Video" }
+    ] },
     { "type": "image_picker", "id": "hero_card_image", "label": "Hero floating card image" },
+    { "type": "video", "id": "hero_card_video", "label": "Hero floating card video" },
+    { "type": "range", "id": "hero_card_width", "min": 10, "max": 60, "step": 1, "unit": "vw", "label": "Hero card width", "default": 18 },
+    { "type": "range", "id": "hero_card_max_width", "min": 160, "max": 520, "step": 10, "unit": "px", "label": "Hero card max width", "default": 280 },
+    { "type": "range", "id": "hero_card_height", "min": 18, "max": 70, "step": 1, "unit": "vh", "label": "Hero card height", "default": 34 },
+    { "type": "range", "id": "hero_card_enter_y", "min": -200, "max": 200, "step": 5, "unit": "px", "label": "Hero card enter Y offset", "default": 0 },
+    { "type": "range", "id": "hero_card_exit_y", "min": -240, "max": 240, "step": 5, "unit": "px", "label": "Hero card exit Y offset", "default": -90 },
+    { "type": "range", "id": "hero_card_scale_from", "min": 50, "max": 150, "step": 1, "unit": "%", "label": "Hero card start scale", "default": 100 },
+    { "type": "range", "id": "hero_card_scale_to", "min": 50, "max": 150, "step": 1, "unit": "%", "label": "Hero card exit scale", "default": 103 },
     { "type": "text", "id": "hero_card_kicker", "label": "Hero card kicker", "default": "Issue 02" },
     { "type": "text", "id": "hero_card_title", "label": "Hero card title", "default": "On location" },
 
@@ -358,23 +487,78 @@
     { "type": "text", "id": "scene2_meta_right", "label": "Meta right", "default": "Scroll edition" },
 
     { "type": "header", "content": "Scene 3 • Gallery spread" },
+    { "type": "select", "id": "scene3_strip_media_type", "label": "Top strip media type", "default": "image", "options": [
+      { "value": "image", "label": "Image" },
+      { "value": "video", "label": "Video" }
+    ] },
     { "type": "image_picker", "id": "scene3_strip_image", "label": "Top strip image" },
+    { "type": "video", "id": "scene3_strip_video", "label": "Top strip video" },
     { "type": "textarea", "id": "scene3_copy", "label": "Small copy", "default": "A cinematic collage scene with manual placements, editorial spacing, and staggered cards moving independently as the user scrolls." },
     { "type": "textarea", "id": "scene3_headline", "label": "Gallery headline", "default": "SUMMER\nAFTER\nMIDNIGHT" },
 
     { "type": "header", "content": "Scene 4 • Event board" },
     { "type": "text", "id": "scene4_symbols", "label": "Top symbols", "default": "✦ ✦ ✦" },
     { "type": "textarea", "id": "scene4_headline", "label": "Event board headline", "default": "CITY\nNIGHTS" },
+    { "type": "select", "id": "scene4_chip1_media_type", "label": "Chip 1 media type", "default": "image", "options": [
+      { "value": "image", "label": "Image" },
+      { "value": "video", "label": "Video" }
+    ] },
     { "type": "image_picker", "id": "scene4_chip_image_1", "label": "Chip image 1" },
+    { "type": "video", "id": "scene4_chip_video_1", "label": "Chip video 1" },
+    { "type": "range", "id": "scene4_chip1_x", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Chip 1 rest X", "default": 0 },
+    { "type": "range", "id": "scene4_chip1_y", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Chip 1 rest Y", "default": 0 },
+    { "type": "range", "id": "scene4_chip1_width", "min": 10, "max": 100, "step": 1, "unit": "%", "label": "Chip 1 width", "default": 42 },
+    { "type": "range", "id": "scene4_chip1_height", "min": 10, "max": 100, "step": 1, "unit": "%", "label": "Chip 1 height", "default": 100 },
+    { "type": "range", "id": "scene4_chip1_rotation", "min": -30, "max": 30, "step": 1, "unit": "deg", "label": "Chip 1 rest rotation", "default": 0 },
+    { "type": "range", "id": "scene4_chip1_enter_x", "min": -200, "max": 200, "step": 5, "unit": "px", "label": "Chip 1 enter X", "default": -30 },
+    { "type": "range", "id": "scene4_chip1_enter_y", "min": -200, "max": 200, "step": 5, "unit": "px", "label": "Chip 1 enter Y", "default": 25 },
+    { "type": "range", "id": "scene4_chip1_exit_y", "min": -200, "max": 200, "step": 5, "unit": "px", "label": "Chip 1 exit Y", "default": -10 },
+    { "type": "range", "id": "scene4_chip1_scale_from", "min": 50, "max": 150, "step": 1, "unit": "%", "label": "Chip 1 start scale", "default": 92 },
+    { "type": "range", "id": "scene4_chip1_scale_to", "min": 50, "max": 150, "step": 1, "unit": "%", "label": "Chip 1 rest scale", "default": 100 },
+    { "type": "select", "id": "scene4_chip2_media_type", "label": "Chip 2 media type", "default": "image", "options": [
+      { "value": "image", "label": "Image" },
+      { "value": "video", "label": "Video" }
+    ] },
     { "type": "image_picker", "id": "scene4_chip_image_2", "label": "Chip image 2" },
+    { "type": "video", "id": "scene4_chip_video_2", "label": "Chip video 2" },
+    { "type": "range", "id": "scene4_chip2_x", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Chip 2 rest X", "default": 58 },
+    { "type": "range", "id": "scene4_chip2_y", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Chip 2 rest Y", "default": 28 },
+    { "type": "range", "id": "scene4_chip2_width", "min": 10, "max": 100, "step": 1, "unit": "%", "label": "Chip 2 width", "default": 42 },
+    { "type": "range", "id": "scene4_chip2_height", "min": 10, "max": 100, "step": 1, "unit": "%", "label": "Chip 2 height", "default": 72 },
+    { "type": "range", "id": "scene4_chip2_rotation", "min": -30, "max": 30, "step": 1, "unit": "deg", "label": "Chip 2 rest rotation", "default": 0 },
+    { "type": "range", "id": "scene4_chip2_enter_x", "min": -200, "max": 200, "step": 5, "unit": "px", "label": "Chip 2 enter X", "default": 30 },
+    { "type": "range", "id": "scene4_chip2_enter_y", "min": -200, "max": 200, "step": 5, "unit": "px", "label": "Chip 2 enter Y", "default": 25 },
+    { "type": "range", "id": "scene4_chip2_exit_y", "min": -200, "max": 200, "step": 5, "unit": "px", "label": "Chip 2 exit Y", "default": -10 },
+    { "type": "range", "id": "scene4_chip2_scale_from", "min": 50, "max": 150, "step": 1, "unit": "%", "label": "Chip 2 start scale", "default": 92 },
+    { "type": "range", "id": "scene4_chip2_scale_to", "min": 50, "max": 150, "step": 1, "unit": "%", "label": "Chip 2 rest scale", "default": 100 },
 
     { "type": "header", "content": "Scene 5 • Return scene" },
     { "type": "image_picker", "id": "scene5_background", "label": "Return scene background image" },
     { "type": "text", "id": "scene5_info_kicker", "label": "Info card kicker", "default": "Chapter 05" },
     { "type": "text", "id": "scene5_info_title", "label": "Info card title", "default": "Field notes" },
     { "type": "textarea", "id": "scene5_info_copy", "label": "Info card copy", "default": "A floating cluster re-enters over the background while the final headline rises from the lower edge." },
+    { "type": "select", "id": "scene5_card1_media_type", "label": "Cluster card 1 media type", "default": "image", "options": [
+      { "value": "image", "label": "Image" },
+      { "value": "video", "label": "Video" }
+    ] },
     { "type": "image_picker", "id": "scene5_card_image_1", "label": "Cluster image 1" },
+    { "type": "video", "id": "scene5_card_video_1", "label": "Cluster video 1" },
+    { "type": "range", "id": "scene5_card1_x", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Cluster card 1 rest X", "default": 52 },
+    { "type": "range", "id": "scene5_card1_y", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Cluster card 1 rest Y", "default": 0 },
+    { "type": "range", "id": "scene5_card1_width", "min": 10, "max": 100, "step": 1, "unit": "%", "label": "Cluster card 1 width", "default": 48 },
+    { "type": "range", "id": "scene5_card1_height", "min": 10, "max": 100, "step": 1, "unit": "%", "label": "Cluster card 1 height", "default": 72 },
+    { "type": "range", "id": "scene5_card1_rotation", "min": -30, "max": 30, "step": 1, "unit": "deg", "label": "Cluster card 1 rotation", "default": 0 },
+    { "type": "select", "id": "scene5_card2_media_type", "label": "Cluster card 2 media type", "default": "image", "options": [
+      { "value": "image", "label": "Image" },
+      { "value": "video", "label": "Video" }
+    ] },
     { "type": "image_picker", "id": "scene5_card_image_2", "label": "Cluster image 2" },
+    { "type": "video", "id": "scene5_card_video_2", "label": "Cluster video 2" },
+    { "type": "range", "id": "scene5_card2_x", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Cluster card 2 rest X", "default": 46 },
+    { "type": "range", "id": "scene5_card2_y", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Cluster card 2 rest Y", "default": 52 },
+    { "type": "range", "id": "scene5_card2_width", "min": 10, "max": 100, "step": 1, "unit": "%", "label": "Cluster card 2 width", "default": 40 },
+    { "type": "range", "id": "scene5_card2_height", "min": 10, "max": 100, "step": 1, "unit": "%", "label": "Cluster card 2 height", "default": 48 },
+    { "type": "range", "id": "scene5_card2_rotation", "min": -30, "max": 30, "step": 1, "unit": "deg", "label": "Cluster card 2 rotation", "default": 0 },
     { "type": "textarea", "id": "scene5_headline", "label": "Return headline", "default": "WE MAKE\nMOVEMENT\nVISIBLE" },
 
     { "type": "header", "content": "Scene 6 • Footer exit" },
@@ -388,8 +572,25 @@
       "name": "Scene 2 card",
       "limit": 3,
       "settings": [
+        { "type": "select", "id": "media_type", "label": "Media type", "default": "image", "options": [
+          { "value": "image", "label": "Image" },
+          { "value": "video", "label": "Video" }
+        ] },
         { "type": "image_picker", "id": "image", "label": "Image" },
-        { "type": "text", "id": "label", "label": "Label", "default": "Detail" }
+        { "type": "video", "id": "video", "label": "Video" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Detail" },
+        { "type": "range", "id": "x_position", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Rest X position", "default": 5 },
+        { "type": "range", "id": "y_position", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Rest Y position", "default": 16 },
+        { "type": "range", "id": "width", "min": 8, "max": 60, "step": 1, "unit": "vw", "label": "Width", "default": 17 },
+        { "type": "range", "id": "height", "min": 8, "max": 80, "step": 1, "unit": "vh", "label": "Height", "default": 34 },
+        { "type": "range", "id": "rotation", "min": -30, "max": 30, "step": 1, "unit": "deg", "label": "Rest rotation", "default": 0 },
+        { "type": "range", "id": "enter_x", "min": -240, "max": 240, "step": 5, "unit": "px", "label": "Enter X offset", "default": -80 },
+        { "type": "range", "id": "enter_y", "min": -240, "max": 240, "step": 5, "unit": "px", "label": "Enter Y offset", "default": 55 },
+        { "type": "range", "id": "exit_y", "min": -240, "max": 240, "step": 5, "unit": "px", "label": "Exit Y offset", "default": -25 },
+        { "type": "range", "id": "scale_from", "min": 50, "max": 150, "step": 1, "unit": "%", "label": "Start scale", "default": 92 },
+        { "type": "range", "id": "scale_to", "min": 50, "max": 150, "step": 1, "unit": "%", "label": "Rest scale", "default": 102 },
+        { "type": "range", "id": "fade_strength", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Exit fade strength", "default": 40 },
+        { "type": "range", "id": "stagger", "min": 0, "max": 40, "step": 1, "unit": "%", "label": "Stagger delay", "default": 8 }
       ]
     },
     {
@@ -397,8 +598,25 @@
       "name": "Scene 3 collage card",
       "limit": 5,
       "settings": [
+        { "type": "select", "id": "media_type", "label": "Media type", "default": "image", "options": [
+          { "value": "image", "label": "Image" },
+          { "value": "video", "label": "Video" }
+        ] },
         { "type": "image_picker", "id": "image", "label": "Image" },
-        { "type": "text", "id": "caption", "label": "Caption", "default": "Look" }
+        { "type": "video", "id": "video", "label": "Video" },
+        { "type": "text", "id": "caption", "label": "Caption", "default": "Look" },
+        { "type": "range", "id": "x_position", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Rest X position", "default": 28 },
+        { "type": "range", "id": "y_position", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Rest Y position", "default": 23 },
+        { "type": "range", "id": "width", "min": 8, "max": 60, "step": 1, "unit": "vw", "label": "Width", "default": 16 },
+        { "type": "range", "id": "height", "min": 8, "max": 80, "step": 1, "unit": "vh", "label": "Height", "default": 34 },
+        { "type": "range", "id": "rotation", "min": -30, "max": 30, "step": 1, "unit": "deg", "label": "Rest rotation", "default": 0 },
+        { "type": "range", "id": "enter_x", "min": -240, "max": 240, "step": 5, "unit": "px", "label": "Enter X offset", "default": -80 },
+        { "type": "range", "id": "enter_y", "min": -240, "max": 240, "step": 5, "unit": "px", "label": "Enter Y offset", "default": 70 },
+        { "type": "range", "id": "exit_y", "min": -240, "max": 240, "step": 5, "unit": "px", "label": "Exit Y offset", "default": -25 },
+        { "type": "range", "id": "scale_from", "min": 50, "max": 150, "step": 1, "unit": "%", "label": "Start scale", "default": 100 },
+        { "type": "range", "id": "scale_to", "min": 50, "max": 150, "step": 1, "unit": "%", "label": "Rest scale", "default": 100 },
+        { "type": "range", "id": "fade_strength", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Exit fade strength", "default": 35 },
+        { "type": "range", "id": "stagger", "min": 0, "max": 40, "step": 1, "unit": "%", "label": "Stagger delay", "default": 7 }
       ]
     },
     {

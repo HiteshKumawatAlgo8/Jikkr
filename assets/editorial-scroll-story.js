@@ -3,6 +3,15 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const smooth = (t) => t * t * (3 - 2 * t);
   const segment = (progress, start, end) => smooth(clamp((progress - start) / (end - start), 0, 1));
+  const dataNumber = (element, name, fallback) => {
+    const value = parseFloat(element?.dataset?.[name]);
+    return Number.isFinite(value) ? value : fallback;
+  };
+  const cssNumber = (element, name, fallback) => {
+    const value = parseFloat(getComputedStyle(element).getPropertyValue(name));
+    return Number.isFinite(value) ? value : fallback;
+  };
+  const scrollPoint = (root, key, fallback) => dataNumber(root, key, fallback * 100) / 100;
   const sceneOpacity = (progress, enterStart, enterEnd, exitStart, exitEnd) => {
     const enter = segment(progress, enterStart, enterEnd);
     const exit = segment(progress, exitStart, exitEnd);
@@ -49,12 +58,12 @@
     const footerWord = scene6?.querySelector('.es-story__footer-word');
 
     const windows = {
-      s1: { enterStart: 0.00, enterEnd: 0.07, exitStart: 0.10, exitEnd: 0.18 },
-      s2: { enterStart: 0.12, enterEnd: 0.22, exitStart: 0.28, exitEnd: 0.36 },
-      s3: { enterStart: 0.31, enterEnd: 0.40, exitStart: 0.47, exitEnd: 0.56 },
-      s4: { enterStart: 0.50, enterEnd: 0.58, exitStart: 0.67, exitEnd: 0.75 },
-      s5: { enterStart: 0.70, enterEnd: 0.78, exitStart: 0.86, exitEnd: 0.93 },
-      s6: { enterStart: 0.88, enterEnd: 0.95, exitStart: 0.985, exitEnd: 1.00 }
+      s1: { enterStart: scrollPoint(root, 's1EnterStart', 0.00), enterEnd: scrollPoint(root, 's1EnterEnd', 0.07), exitStart: scrollPoint(root, 's1ExitStart', 0.10), exitEnd: scrollPoint(root, 's1ExitEnd', 0.18) },
+      s2: { enterStart: scrollPoint(root, 's2EnterStart', 0.12), enterEnd: scrollPoint(root, 's2EnterEnd', 0.22), exitStart: scrollPoint(root, 's2ExitStart', 0.28), exitEnd: scrollPoint(root, 's2ExitEnd', 0.36) },
+      s3: { enterStart: scrollPoint(root, 's3EnterStart', 0.31), enterEnd: scrollPoint(root, 's3EnterEnd', 0.40), exitStart: scrollPoint(root, 's3ExitStart', 0.47), exitEnd: scrollPoint(root, 's3ExitEnd', 0.56) },
+      s4: { enterStart: scrollPoint(root, 's4EnterStart', 0.50), enterEnd: scrollPoint(root, 's4EnterEnd', 0.58), exitStart: scrollPoint(root, 's4ExitStart', 0.67), exitEnd: scrollPoint(root, 's4ExitEnd', 0.75) },
+      s5: { enterStart: scrollPoint(root, 's5EnterStart', 0.70), enterEnd: scrollPoint(root, 's5EnterEnd', 0.78), exitStart: scrollPoint(root, 's5ExitStart', 0.86), exitEnd: scrollPoint(root, 's5ExitEnd', 0.93) },
+      s6: { enterStart: scrollPoint(root, 's6EnterStart', 0.88), enterEnd: scrollPoint(root, 's6EnterEnd', 0.95), exitStart: scrollPoint(root, 's6ExitStart', 0.985), exitEnd: scrollPoint(root, 's6ExitEnd', 1.00) }
     };
 
     let ticking = false;
@@ -95,7 +104,11 @@
         }
         if (heroCard) {
           heroCard.style.opacity = String(clamp(1 - outT * 1.05, 0, 1));
-          heroCard.style.transform = `translate3d(0, ${lerp(0, -88, outT)}px, 0) scale(${lerp(1, 1.025, outT)})`;
+          const enterY = dataNumber(heroCard, 'enterY', 0);
+          const exitY = dataNumber(heroCard, 'exitY', -88);
+          const scaleFrom = dataNumber(heroCard, 'scaleFrom', 1);
+          const scaleTo = dataNumber(heroCard, 'scaleTo', 1.025);
+          heroCard.style.transform = `translate3d(0, ${lerp(enterY, exitY, outT)}px, 0) scale(${lerp(scaleFrom, scaleTo, outT)})`;
         }
         if (heroBg) {
           heroBg.style.transform = `translate3d(0, ${lerp(0, -7, progress)}%, 0) scale(${lerp(1.04, 1.01, outT)})`;
@@ -112,11 +125,17 @@
           manifestoText.style.transform = `scale(${lerp(1.04, 1.0, inT)}) translate3d(0, ${lerp(18, -8, outT)}px, 0)`;
         }
         manifestoCards.forEach((card, index) => {
-          const offset = index === 0 ? -80 : index === 1 ? 80 : 24;
-          const rise = index === 2 ? 80 : 54;
-          const staggerIn = clamp(inT - index * 0.08, 0, 1);
-          card.style.opacity = String(staggerIn * (1 - outT * 0.4));
-          card.style.transform = `translate3d(${lerp(offset, 0, staggerIn)}px, ${lerp(rise, -24, outT)}px, 0) scale(${lerp(0.92, 1.02, staggerIn)})`;
+          const offset = dataNumber(card, 'enterX', index === 0 ? -80 : index === 1 ? 80 : 24);
+          const rise = dataNumber(card, 'enterY', index === 2 ? 80 : 54);
+          const exitY = dataNumber(card, 'exitY', -24);
+          const scaleFrom = dataNumber(card, 'scaleFrom', 0.92);
+          const scaleTo = dataNumber(card, 'scaleTo', 1.02);
+          const fadeMult = dataNumber(card, 'fadeMult', 0.4);
+          const staggerAmount = dataNumber(card, 'stagger', 0.08);
+          const restRotation = cssNumber(card, '--es-card-rotate', 0);
+          const staggerIn = clamp(inT - index * staggerAmount, 0, 1);
+          card.style.opacity = String(staggerIn * (1 - outT * fadeMult));
+          card.style.transform = `translate3d(${lerp(offset, 0, staggerIn)}px, ${lerp(rise, exitY, outT)}px, 0) rotate(${restRotation}deg) scale(${lerp(scaleFrom, scaleTo, staggerIn)})`;
         });
         if (metaRow) {
           const metaIn = clamp(inT - 0.35, 0, 1);
@@ -139,11 +158,18 @@
           galleryCopy.style.transform = `translate3d(${lerp(-28, 0, inT)}px, ${lerp(12, -18, outT)}px, 0)`;
         }
         galleryCards.forEach((card, index) => {
-          const stagger = clamp(inT - index * 0.07, 0, 1);
-          const xOffset = [-80, 56, 88, -48, 36][index] || 0;
-          const yOffset = [70, 52, 38, 60, 40][index] || 50;
-          card.style.opacity = String(stagger * (1 - outT * 0.35));
-          card.style.transform = `translate3d(${lerp(xOffset, 0, stagger)}px, ${lerp(yOffset, -24, outT)}px, 0) rotate(${lerp(index % 2 ? -2.8 : 2.8, 0, stagger)}deg)`;
+          const staggerAmount = dataNumber(card, 'stagger', 0.07);
+          const stagger = clamp(inT - index * staggerAmount, 0, 1);
+          const xOffset = dataNumber(card, 'enterX', [-80, 56, 88, -48, 36][index] || 0);
+          const yOffset = dataNumber(card, 'enterY', [70, 52, 38, 60, 40][index] || 50);
+          const exitY = dataNumber(card, 'exitY', -24);
+          const scaleFrom = dataNumber(card, 'scaleFrom', 1);
+          const scaleTo = dataNumber(card, 'scaleTo', 1);
+          const fadeMult = dataNumber(card, 'fadeMult', 0.35);
+          const restRotation = cssNumber(card, '--es-card-rotate', 0);
+          const enterRotation = restRotation + (index % 2 ? -2.8 : 2.8);
+          card.style.opacity = String(stagger * (1 - outT * fadeMult));
+          card.style.transform = `translate3d(${lerp(xOffset, 0, stagger)}px, ${lerp(yOffset, exitY, outT)}px, 0) rotate(${lerp(enterRotation, restRotation, stagger)}deg) scale(${lerp(scaleFrom, scaleTo, stagger)})`;
         });
         if (galleryHeadline) {
           const headlineIn = clamp(inT - 0.25, 0, 1);
@@ -167,9 +193,14 @@
         }
         boardChips.forEach((chip, index) => {
           const stagger = clamp(inT - 0.18 - index * 0.1, 0, 1);
-          const xOffset = index === 0 ? -30 : 30;
+          const xOffset = dataNumber(chip, 'enterX', index === 0 ? -30 : 30);
+          const yOffset = dataNumber(chip, 'enterY', 26);
+          const exitY = dataNumber(chip, 'exitY', -12);
+          const scaleFrom = dataNumber(chip, 'scaleFrom', 0.92);
+          const scaleTo = dataNumber(chip, 'scaleTo', 1);
+          const restRotation = cssNumber(chip, '--es-card-rotate', 0);
           chip.style.opacity = String(stagger * (1 - outT * 0.45));
-          chip.style.transform = `translate3d(${lerp(xOffset, 0, stagger)}px, ${lerp(26, -12, outT)}px, 0) scale(${lerp(0.92, 1.0, stagger)})`;
+          chip.style.transform = `translate3d(${lerp(xOffset, 0, stagger)}px, ${lerp(yOffset, exitY, outT)}px, 0) rotate(${restRotation}deg) scale(${lerp(scaleFrom, scaleTo, stagger)})`;
         });
         if (dashedLine) {
           const lineIn = clamp(inT - 0.35, 0, 1);
