@@ -1,0 +1,30 @@
+<section class="shop-section">
+  <div class="page-width">
+    <div class="shop-card rich-text">
+      <div class="rich-text__content">
+        {% if section.settings.eyebrow != blank %}<span class="badge">{{ section.settings.eyebrow }}</span>{% endif %}
+        <h2 class="rich-text__title">{{ section.settings.title | newline_to_br }}</h2>
+      </div>
+      <div class="rich-text__content">
+        <div class="rich-text__prose rte">{{ section.settings.text }}</div>
+        {% if section.settings.button_link != blank %}
+          <div style="margin-top: 22px;"><a class="button" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Rich text",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "About the brand" },
+    { "type": "textarea", "id": "title", "label": "Title", "default": "Built for brands that want motion, mood, and commerce in one storefront." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>This theme includes a full homepage, product page, collection page, search, cart, footer, and editable content sections so it can be uploaded as a standalone Shopify theme.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Read more" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Rich text" }]
+}
+{% endschema %}

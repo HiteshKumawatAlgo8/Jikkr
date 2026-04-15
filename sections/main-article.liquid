@@ -1,0 +1,18 @@
+<section class="shop-section">
+  <div class="content-width article-layout">
+    <div class="shop-card article-content">
+      <span class="badge">{{ article.published_at | date: '%d %b %Y' }}</span>
+      <h1 class="rich-text__title">{{ article.title }}</h1>
+      {% if article.image %}
+        <div class="shop-card" style="overflow:hidden; margin:24px 0;">
+          <img src="{{ article.image | image_url: width: 1800 }}" alt="{{ article.image.alt | escape }}" width="{{ article.image.width }}" height="{{ article.image.height }}">
+        </div>
+      {% endif %}
+      <div class="rte">{{ article.content }}</div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Main article", "settings": [] }
+{% endschema %}

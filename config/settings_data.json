@@ -1,0 +1,20 @@
+{
+  "current": {
+    "sections": {},
+    "content_for_index": [],
+    "settings": {
+      "store_tagline": "Editorial commerce theme",
+      "enable_page_transitions": true,
+      "color_background": "#f7f5ef",
+      "color_text": "#181614",
+      "color_surface": "#ffffff",
+      "color_primary": "#d8ee6b",
+      "color_secondary": "#ee3be4",
+      "button_label": "Shop now",
+      "footer_note": "A standalone Shopify theme built for scroll-led storytelling and editorial storefronts."
+    }
+  },
+  "presets": {
+    "default": {}
+  }
+}

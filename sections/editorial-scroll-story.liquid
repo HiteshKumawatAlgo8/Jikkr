@@ -1,0 +1,446 @@
+{% liquid
+  assign scene2_cards = section.blocks | where: 'type', 'scene2_card'
+  assign scene3_cards = section.blocks | where: 'type', 'scene3_card'
+  assign scene4_items = section.blocks | where: 'type', 'scene4_item'
+  assign scene6_links = section.blocks | where: 'type', 'scene6_link'
+%}
+
+{{ 'editorial-scroll-story.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'editorial-scroll-story.js' | asset_url }}" defer></script>
+
+<section
+  id="EditorialScrollStory-{{ section.id }}"
+  class="es-story section-{{ section.id }}"
+  data-editorial-scroll-story
+  data-scroll-height="{{ section.settings.scroll_height_desktop }}"
+  data-mobile-height="{{ section.settings.scroll_height_mobile }}"
+  data-mobile-breakpoint="768"
+  style="
+    --es-outer-frame: {{ section.settings.outer_frame_color }};
+    --es-inner-surface: {{ section.settings.inner_surface_color }};
+    --es-frame-radius: {{ section.settings.frame_radius }}px;
+    --es-frame-padding: {{ section.settings.frame_padding }}px;
+    --es-stage-max-width: {{ section.settings.stage_max_width }}px;
+    --es-stage-min-height: {{ section.settings.stage_min_height }}vh;
+    --es-shadow: 0 18px 60px rgba(0,0,0,{{ section.settings.shadow_strength | times: 0.01 }});
+    --es-title-color: {{ section.settings.title_color }};
+    --es-body-color: {{ section.settings.body_color }};
+    --es-lime: {{ section.settings.scene_lime_color }};
+    --es-magenta: {{ section.settings.scene_magenta_color }};
+    --es-cream: {{ section.settings.scene_cream_color }};
+    --es-dark: {{ section.settings.scene_dark_color }};
+    --es-accent: {{ section.settings.scene_accent_color }};
+    --es-border-radius-card: {{ section.settings.card_radius }}px;
+    --es-gap: {{ section.settings.layout_gap }}px;
+    --es-title-font: {{ section.settings.title_font_stack | escape }};
+    --es-body-font: {{ section.settings.body_font_stack | escape }};
+    --es-frame-outline: {{ section.settings.frame_outline_color }};
+    --es-frame-outline-width: {{ section.settings.frame_outline_width }}px;
+    --es-title-letter-spacing: {{ section.settings.title_letter_spacing }}em;
+    --es-heading-scale: {{ section.settings.heading_scale | divided_by: 100.0 }};
+  "
+>
+  <div class="es-story__rail">
+    <div class="es-story__sticky">
+      <div class="es-story__frame">
+        <div class="es-story__surface">
+          <div class="es-story__grain"></div>
+
+          <div class="es-story__scene es-story__scene--1" data-scene="1" aria-hidden="true">
+            <div class="es-story__backdrop es-story__backdrop--photo">
+              {% if section.settings.hero_background != blank %}
+                <img
+                  class="es-story__bgimg es-story__bgimg--hero"
+                  src="{{ section.settings.hero_background | image_url: width: 2800 }}"
+                  alt="{{ section.settings.hero_background.alt | escape }}"
+                  loading="lazy"
+                  width="{{ section.settings.hero_background.width }}"
+                  height="{{ section.settings.hero_background.height }}"
+                >
+              {% else %}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'es-story__placeholder es-story__placeholder--hero' }}
+              {% endif %}
+            </div>
+            <div class="es-story__overlay es-story__overlay--hero"></div>
+            <div class="es-story__inner es-story__inner--hero">
+              <div class="es-story__headline-wrap">
+                <div class="es-story__eyebrow">{{ section.settings.hero_eyebrow }}</div>
+                <h2 class="es-story__title es-story__title--hero">{{ section.settings.hero_title | newline_to_br }}</h2>
+              </div>
+              <div class="es-story__hero-card" data-hero-card>
+                <div class="es-story__card-media">
+                  {% if section.settings.hero_card_image != blank %}
+                    <img
+                      src="{{ section.settings.hero_card_image | image_url: width: 900 }}"
+                      alt="{{ section.settings.hero_card_image.alt | escape }}"
+                      loading="lazy"
+                      width="{{ section.settings.hero_card_image.width }}"
+                      height="{{ section.settings.hero_card_image.height }}"
+                    >
+                  {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'es-story__placeholder' }}
+                  {% endif %}
+                </div>
+                <div class="es-story__card-caption">
+                  <span>{{ section.settings.hero_card_kicker }}</span>
+                  <strong>{{ section.settings.hero_card_title }}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="es-story__scene es-story__scene--2" data-scene="2" aria-hidden="true">
+            <div class="es-story__panel es-story__panel--lime"></div>
+            <div class="es-story__inner es-story__inner--manifesto">
+              <div class="es-story__scene-copy es-story__scene-copy--manifesto">
+                <div class="es-story__manifesto-text">{{ section.settings.scene2_manifesto | newline_to_br }}</div>
+              </div>
+              <div class="es-story__manifesto-cards" data-manifesto-cards>
+                {% for block in scene2_cards limit: 3 %}
+                  <div class="es-story__manifesto-card es-story__manifesto-card--{{ forloop.index }}" {{ block.shopify_attributes }}>
+                    <div class="es-story__card-media">
+                      {% if block.settings.image != blank %}
+                        <img
+                          src="{{ block.settings.image | image_url: width: 900 }}"
+                          alt="{{ block.settings.image.alt | escape }}"
+                          loading="lazy"
+                          width="{{ block.settings.image.width }}"
+                          height="{{ block.settings.image.height }}"
+                        >
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'es-story__placeholder' }}
+                      {% endif %}
+                    </div>
+                    {% if block.settings.label != blank %}
+                      <div class="es-story__floating-label">{{ block.settings.label }}</div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="es-story__meta-row">
+                <span>{{ section.settings.scene2_meta_left }}</span>
+                <span>{{ section.settings.scene2_meta_center }}</span>
+                <span>{{ section.settings.scene2_meta_right }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="es-story__scene es-story__scene--3" data-scene="3" aria-hidden="true">
+            <div class="es-story__panel es-story__panel--cream"></div>
+            <div class="es-story__inner es-story__inner--gallery">
+              <div class="es-story__gallery-strip">
+                {% if section.settings.scene3_strip_image != blank %}
+                  <img
+                    src="{{ section.settings.scene3_strip_image | image_url: width: 2400 }}"
+                    alt="{{ section.settings.scene3_strip_image.alt | escape }}"
+                    loading="lazy"
+                    width="{{ section.settings.scene3_strip_image.width }}"
+                    height="{{ section.settings.scene3_strip_image.height }}"
+                  >
+                {% else %}
+                  {{ 'lifestyle-2' | placeholder_svg_tag: 'es-story__placeholder es-story__placeholder--strip' }}
+                {% endif %}
+              </div>
+              <div class="es-story__gallery-copy">{{ section.settings.scene3_copy }}</div>
+              <div class="es-story__gallery-collage" data-gallery-collage>
+                {% for block in scene3_cards limit: 5 %}
+                  <div class="es-story__gallery-card es-story__gallery-card--{{ forloop.index }}" {{ block.shopify_attributes }}>
+                    <div class="es-story__card-media">
+                      {% if block.settings.image != blank %}
+                        <img
+                          src="{{ block.settings.image | image_url: width: 1000 }}"
+                          alt="{{ block.settings.image.alt | escape }}"
+                          loading="lazy"
+                          width="{{ block.settings.image.width }}"
+                          height="{{ block.settings.image.height }}"
+                        >
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'es-story__placeholder' }}
+                      {% endif %}
+                    </div>
+                    {% if block.settings.caption != blank %}
+                      <div class="es-story__floating-label">{{ block.settings.caption }}</div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="es-story__gallery-headline">{{ section.settings.scene3_headline | newline_to_br }}</div>
+            </div>
+          </div>
+
+          <div class="es-story__scene es-story__scene--4" data-scene="4" aria-hidden="true">
+            <div class="es-story__panel es-story__panel--magenta"></div>
+            <div class="es-story__inner es-story__inner--eventboard">
+              <div class="es-story__symbols">{{ section.settings.scene4_symbols }}</div>
+              <div class="es-story__board-headline">{{ section.settings.scene4_headline | newline_to_br }}</div>
+              <div class="es-story__board-chips" data-board-chips>
+                <div class="es-story__board-chip es-story__board-chip--1">
+                  <div class="es-story__card-media">
+                    {% if section.settings.scene4_chip_image_1 != blank %}
+                      <img
+                        src="{{ section.settings.scene4_chip_image_1 | image_url: width: 800 }}"
+                        alt="{{ section.settings.scene4_chip_image_1.alt | escape }}"
+                        loading="lazy"
+                        width="{{ section.settings.scene4_chip_image_1.width }}"
+                        height="{{ section.settings.scene4_chip_image_1.height }}"
+                      >
+                    {% else %}
+                      {{ 'image' | placeholder_svg_tag: 'es-story__placeholder' }}
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="es-story__board-chip es-story__board-chip--2">
+                  <div class="es-story__card-media">
+                    {% if section.settings.scene4_chip_image_2 != blank %}
+                      <img
+                        src="{{ section.settings.scene4_chip_image_2 | image_url: width: 800 }}"
+                        alt="{{ section.settings.scene4_chip_image_2.alt | escape }}"
+                        loading="lazy"
+                        width="{{ section.settings.scene4_chip_image_2.width }}"
+                        height="{{ section.settings.scene4_chip_image_2.height }}"
+                      >
+                    {% else %}
+                      {{ 'image' | placeholder_svg_tag: 'es-story__placeholder' }}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="es-story__dashed-line"></div>
+              <div class="es-story__event-grid" data-event-grid>
+                {% for block in scene4_items %}
+                  <div class="es-story__event-item es-story__event-item--{{ forloop.index }}" {{ block.shopify_attributes }}>
+                    {% if block.settings.kicker != blank %}
+                      <span class="es-story__event-kicker">{{ block.settings.kicker }}</span>
+                    {% endif %}
+                    <strong>{{ block.settings.title }}</strong>
+                    {% if block.settings.subtext != blank %}
+                      <small>{{ block.settings.subtext }}</small>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <div class="es-story__scene es-story__scene--5" data-scene="5" aria-hidden="true">
+            <div class="es-story__backdrop es-story__backdrop--photo">
+              {% if section.settings.scene5_background != blank %}
+                <img
+                  class="es-story__bgimg es-story__bgimg--scene5"
+                  src="{{ section.settings.scene5_background | image_url: width: 2800 }}"
+                  alt="{{ section.settings.scene5_background.alt | escape }}"
+                  loading="lazy"
+                  width="{{ section.settings.scene5_background.width }}"
+                  height="{{ section.settings.scene5_background.height }}"
+                >
+              {% else %}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'es-story__placeholder es-story__placeholder--hero' }}
+              {% endif %}
+            </div>
+            <div class="es-story__overlay es-story__overlay--return"></div>
+            <div class="es-story__inner es-story__inner--return">
+              <div class="es-story__info-cluster" data-info-cluster>
+                <div class="es-story__info-card">
+                  <span>{{ section.settings.scene5_info_kicker }}</span>
+                  <strong>{{ section.settings.scene5_info_title }}</strong>
+                  <p>{{ section.settings.scene5_info_copy }}</p>
+                </div>
+                <div class="es-story__info-visual es-story__info-visual--1">
+                  <div class="es-story__card-media">
+                    {% if section.settings.scene5_card_image_1 != blank %}
+                      <img
+                        src="{{ section.settings.scene5_card_image_1 | image_url: width: 900 }}"
+                        alt="{{ section.settings.scene5_card_image_1.alt | escape }}"
+                        loading="lazy"
+                        width="{{ section.settings.scene5_card_image_1.width }}"
+                        height="{{ section.settings.scene5_card_image_1.height }}"
+                      >
+                    {% else %}
+                      {{ 'image' | placeholder_svg_tag: 'es-story__placeholder' }}
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="es-story__info-visual es-story__info-visual--2">
+                  <div class="es-story__card-media">
+                    {% if section.settings.scene5_card_image_2 != blank %}
+                      <img
+                        src="{{ section.settings.scene5_card_image_2 | image_url: width: 900 }}"
+                        alt="{{ section.settings.scene5_card_image_2.alt | escape }}"
+                        loading="lazy"
+                        width="{{ section.settings.scene5_card_image_2.width }}"
+                        height="{{ section.settings.scene5_card_image_2.height }}"
+                      >
+                    {% else %}
+                      {{ 'image' | placeholder_svg_tag: 'es-story__placeholder' }}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="es-story__return-headline">{{ section.settings.scene5_headline | newline_to_br }}</div>
+            </div>
+          </div>
+
+          <div class="es-story__scene es-story__scene--6" data-scene="6" aria-hidden="true">
+            <div class="es-story__panel es-story__panel--footer"></div>
+            <div class="es-story__inner es-story__inner--footer">
+              <div class="es-story__footer-top">
+                <div class="es-story__footer-copy">
+                  <span>{{ section.settings.scene6_label }}</span>
+                  <p>{{ section.settings.scene6_copy }}</p>
+                </div>
+                <div class="es-story__footer-links">
+                  {% for block in scene6_links %}
+                    {% if block.settings.url != blank %}
+                      <a href="{{ block.settings.url }}" class="es-story__footer-link" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+                    {% else %}
+                      <span class="es-story__footer-link" {{ block.shopify_attributes }}>{{ block.settings.label }}</span>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="es-story__footer-word">{{ section.settings.scene6_word }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Editorial scroll story",
+  "tag": "section",
+  "class": "shopify-section--editorial-scroll-story",
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "scroll_height_desktop", "min": 320, "max": 900, "step": 10, "unit": "vh", "label": "Desktop scroll height", "default": 580 },
+    { "type": "range", "id": "scroll_height_mobile", "min": 280, "max": 860, "step": 10, "unit": "vh", "label": "Mobile scroll height", "default": 520 },
+    { "type": "range", "id": "stage_max_width", "min": 1100, "max": 1900, "step": 20, "unit": "px", "label": "Stage max width", "default": 1520 },
+    { "type": "range", "id": "stage_min_height", "min": 70, "max": 100, "step": 1, "unit": "vh", "label": "Stage min height", "default": 92 },
+    { "type": "range", "id": "frame_padding", "min": 12, "max": 48, "step": 2, "unit": "px", "label": "Frame padding", "default": 24 },
+    { "type": "range", "id": "frame_radius", "min": 0, "max": 60, "step": 2, "unit": "px", "label": "Frame corner radius", "default": 24 },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Card corner radius", "default": 20 },
+    { "type": "range", "id": "layout_gap", "min": 8, "max": 40, "step": 2, "unit": "px", "label": "General gap size", "default": 18 },
+    { "type": "range", "id": "shadow_strength", "min": 5, "max": 40, "step": 1, "unit": "%", "label": "Shadow strength", "default": 18 },
+
+    { "type": "header", "content": "Color system" },
+    { "type": "color", "id": "outer_frame_color", "label": "Outer frame color", "default": "#c8dd57" },
+    { "type": "color", "id": "inner_surface_color", "label": "Inner surface color", "default": "#d6eb69" },
+    { "type": "color", "id": "frame_outline_color", "label": "Frame outline color", "default": "#b2c736" },
+    { "type": "range", "id": "frame_outline_width", "min": 0, "max": 8, "step": 1, "unit": "px", "label": "Frame outline width", "default": 1 },
+    { "type": "color", "id": "title_color", "label": "Headline color", "default": "#eaf96e" },
+    { "type": "color", "id": "body_color", "label": "Body color", "default": "#2c2a23" },
+    { "type": "color", "id": "scene_lime_color", "label": "Lime scene color", "default": "#d8ee6b" },
+    { "type": "color", "id": "scene_magenta_color", "label": "Magenta scene color", "default": "#ee3be4" },
+    { "type": "color", "id": "scene_cream_color", "label": "Cream scene color", "default": "#f5f0e8" },
+    { "type": "color", "id": "scene_dark_color", "label": "Dark text color", "default": "#2a2620" },
+    { "type": "color", "id": "scene_accent_color", "label": "Accent color", "default": "#f6ff98" },
+
+    { "type": "header", "content": "Typography" },
+    { "type": "text", "id": "title_font_stack", "label": "Headline font stack", "default": "'Anton', 'Arial Narrow', Arial, sans-serif" },
+    { "type": "text", "id": "body_font_stack", "label": "Body font stack", "default": "Inter, Helvetica, Arial, sans-serif" },
+    { "type": "range", "id": "title_letter_spacing", "min": -10, "max": 20, "step": 1, "label": "Headline letter spacing (x0.01em)", "default": -3 },
+    { "type": "range", "id": "heading_scale", "min": 80, "max": 130, "step": 1, "unit": "%", "label": "Overall headline scale", "default": 100 },
+
+    { "type": "header", "content": "Scene 1 • Intro hero" },
+    { "type": "image_picker", "id": "hero_background", "label": "Hero background image" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Hero eyebrow", "default": "New collection / Studio edit" },
+    { "type": "textarea", "id": "hero_title", "label": "Hero title", "default": "THE\nGREAT\nESCAPE" },
+    { "type": "image_picker", "id": "hero_card_image", "label": "Hero floating card image" },
+    { "type": "text", "id": "hero_card_kicker", "label": "Hero card kicker", "default": "Issue 02" },
+    { "type": "text", "id": "hero_card_title", "label": "Hero card title", "default": "On location" },
+
+    { "type": "header", "content": "Scene 2 • Manifesto" },
+    { "type": "textarea", "id": "scene2_manifesto", "label": "Manifesto text", "default": "IT'S NOT ABOUT\nFOLLOWING A TREND.\nIT'S ABOUT MAKING\nA WORLD AROUND IT." },
+    { "type": "text", "id": "scene2_meta_left", "label": "Meta left", "default": "Studio / Journal" },
+    { "type": "text", "id": "scene2_meta_center", "label": "Meta center", "default": "Lookbook 2026" },
+    { "type": "text", "id": "scene2_meta_right", "label": "Meta right", "default": "Scroll edition" },
+
+    { "type": "header", "content": "Scene 3 • Gallery spread" },
+    { "type": "image_picker", "id": "scene3_strip_image", "label": "Top strip image" },
+    { "type": "textarea", "id": "scene3_copy", "label": "Small copy", "default": "A cinematic collage scene with manual placements, editorial spacing, and staggered cards moving independently as the user scrolls." },
+    { "type": "textarea", "id": "scene3_headline", "label": "Gallery headline", "default": "SUMMER\nAFTER\nMIDNIGHT" },
+
+    { "type": "header", "content": "Scene 4 • Event board" },
+    { "type": "text", "id": "scene4_symbols", "label": "Top symbols", "default": "✦ ✦ ✦" },
+    { "type": "textarea", "id": "scene4_headline", "label": "Event board headline", "default": "CITY\nNIGHTS" },
+    { "type": "image_picker", "id": "scene4_chip_image_1", "label": "Chip image 1" },
+    { "type": "image_picker", "id": "scene4_chip_image_2", "label": "Chip image 2" },
+
+    { "type": "header", "content": "Scene 5 • Return scene" },
+    { "type": "image_picker", "id": "scene5_background", "label": "Return scene background image" },
+    { "type": "text", "id": "scene5_info_kicker", "label": "Info card kicker", "default": "Chapter 05" },
+    { "type": "text", "id": "scene5_info_title", "label": "Info card title", "default": "Field notes" },
+    { "type": "textarea", "id": "scene5_info_copy", "label": "Info card copy", "default": "A floating cluster re-enters over the background while the final headline rises from the lower edge." },
+    { "type": "image_picker", "id": "scene5_card_image_1", "label": "Cluster image 1" },
+    { "type": "image_picker", "id": "scene5_card_image_2", "label": "Cluster image 2" },
+    { "type": "textarea", "id": "scene5_headline", "label": "Return headline", "default": "WE MAKE\nMOVEMENT\nVISIBLE" },
+
+    { "type": "header", "content": "Scene 6 • Footer exit" },
+    { "type": "text", "id": "scene6_label", "label": "Footer label", "default": "Contact / Journal / Archive" },
+    { "type": "textarea", "id": "scene6_copy", "label": "Footer copy", "default": "Use this final panel as an exit card, mini footer, or transition into the next page section." },
+    { "type": "text", "id": "scene6_word", "label": "Big footer word", "default": "GOAT" }
+  ],
+  "blocks": [
+    {
+      "type": "scene2_card",
+      "name": "Scene 2 card",
+      "limit": 3,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Detail" }
+      ]
+    },
+    {
+      "type": "scene3_card",
+      "name": "Scene 3 collage card",
+      "limit": 5,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "caption", "label": "Caption", "default": "Look" }
+      ]
+    },
+    {
+      "type": "scene4_item",
+      "name": "Scene 4 event item",
+      "limit": 8,
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Kicker", "default": "City" },
+        { "type": "text", "id": "title", "label": "Title", "default": "New York" },
+        { "type": "text", "id": "subtext", "label": "Subtext", "default": "Night edit" }
+      ]
+    },
+    {
+      "type": "scene6_link",
+      "name": "Scene 6 footer link",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Instagram" },
+        { "type": "url", "id": "url", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial scroll story",
+      "blocks": [
+        { "type": "scene2_card" },
+        { "type": "scene2_card" },
+        { "type": "scene2_card" },
+        { "type": "scene3_card" },
+        { "type": "scene3_card" },
+        { "type": "scene3_card" },
+        { "type": "scene3_card" },
+        { "type": "scene4_item" },
+        { "type": "scene4_item" },
+        { "type": "scene4_item" },
+        { "type": "scene4_item" },
+        { "type": "scene6_link" },
+        { "type": "scene6_link" },
+        { "type": "scene6_link" }
+      ]
+    }
+  ]
+}
+{% endschema %}

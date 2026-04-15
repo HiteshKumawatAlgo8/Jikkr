@@ -1,0 +1,10 @@
+{% if line_item %}
+  <span class="money">{{ line_item.final_price | money }}</span>
+{% elsif product %}
+  {% if product.compare_at_price > product.price %}
+    <span class="money">{{ product.price | money }}</span>
+    <span class="text-muted"><s>{{ product.compare_at_price | money }}</s></span>
+  {% else %}
+    <span class="money">{{ product.price | money }}</span>
+  {% endif %}
+{% endif %}

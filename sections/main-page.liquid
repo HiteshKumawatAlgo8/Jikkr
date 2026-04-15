@@ -1,0 +1,21 @@
+<section class="shop-section">
+  <div class="content-width">
+    <div class="shop-card article-content">
+      {% if section.settings.show_title %}
+        <div class="section-heading">
+          <h1>{{ page.title }}</h1>
+        </div>
+      {% endif %}
+      <div class="rte">{{ page.content }}</div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main page",
+  "settings": [
+    { "type": "checkbox", "id": "show_title", "label": "Show page title", "default": true }
+  ]
+}
+{% endschema %}

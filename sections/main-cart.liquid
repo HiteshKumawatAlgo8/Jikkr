@@ -1,0 +1,55 @@
+<section class="shop-section">
+  <div class="page-width">
+    <div class="section-heading">
+      <h1>{{ 'sections.cart.title' | t }}</h1>
+      <p>{{ cart.item_count }} item{% if cart.item_count != 1 %}s{% endif %}</p>
+    </div>
+
+    {% if cart.item_count > 0 %}
+      <form action="{{ routes.cart_url }}" method="post" class="cart-page">
+        <div class="shop-card cart-items">
+          {% for item in cart.items %}
+            <div class="cart-line">
+              <a href="{{ item.url }}" class="cart-line__media">
+                {% if item.image %}
+                  <img src="{{ item.image | image_url: width: 400 }}" alt="{{ item.image.alt | escape }}" width="{{ item.image.width }}" height="{{ item.image.height }}">
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag }}
+                {% endif %}
+              </a>
+              <div class="cart-line__meta">
+                <a href="{{ item.url }}"><strong>{{ item.product.title }}</strong></a>
+                <span class="text-muted">{{ item.variant.title }}</span>
+                <span>{% render 'price', line_item: item %}</span>
+                <label class="visually-hidden" for="updates_{{ item.key }}">Quantity</label>
+                <input id="updates_{{ item.key }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+              </div>
+              <div class="cart-line__actions">
+                <span class="money">{{ item.final_line_price | money }}</span>
+                <a href="{{ item.url_to_remove }}">Remove</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <aside class="shop-card cart-summary">
+          <div class="section-heading" style="margin-bottom:16px;">
+            <h2 style="font-size:2rem;">Summary</h2>
+          </div>
+          <div style="display:grid; gap:12px;">
+            <div style="display:flex; justify-content:space-between; gap:16px;"><span>Subtotal</span><strong>{{ cart.total_price | money }}</strong></div>
+            <p class="text-muted">{{ 'sections.cart.taxes_and_shipping_at_checkout' | t }}</p>
+            <button class="button" type="submit" name="checkout">{{ 'sections.cart.checkout' | t }}</button>
+            <button class="button-secondary" type="submit">{{ 'sections.cart.update' | t }}</button>
+          </div>
+        </aside>
+      </form>
+    {% else %}
+      <div class="empty-state">{{ 'sections.cart.empty' | t }} <a href="{{ routes.all_products_collection_url }}">Continue shopping</a>.</div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Main cart", "settings": [] }
+{% endschema %}

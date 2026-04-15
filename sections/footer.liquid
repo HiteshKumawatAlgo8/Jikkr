@@ -1,0 +1,46 @@
+<footer class="site-footer">
+  <div class="page-width">
+    <div class="site-footer__grid">
+      <div>
+        <h2 class="site-footer__title">{{ shop.name }}</h2>
+        <p>{{ settings.footer_note }}</p>
+      </div>
+      <div>
+        <strong>{{ section.settings.menu_title }}</strong>
+        <ul>
+          {% for link in linklists[section.settings.menu].links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <strong>{{ section.settings.contact_title }}</strong>
+        <ul>
+          {% if section.settings.contact_email != blank %}<li><a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a></li>{% endif %}
+          {% if section.settings.contact_phone != blank %}<li><a href="tel:{{ section.settings.contact_phone | replace: ' ', '' }}">{{ section.settings.contact_phone }}</a></li>{% endif %}
+          {% if section.settings.instagram != blank %}<li><a href="{{ section.settings.instagram }}">Instagram</a></li>{% endif %}
+          {% if section.settings.tiktok != blank %}<li><a href="{{ section.settings.tiktok }}">TikTok</a></li>{% endif %}
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© {{ 'now' | date: '%Y' }} {{ shop.name }}</span>
+      <span>{{ settings.store_tagline }}</span>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "text", "id": "menu_title", "label": "Menu title", "default": "Explore" },
+    { "type": "link_list", "id": "menu", "label": "Footer menu" },
+    { "type": "text", "id": "contact_title", "label": "Contact title", "default": "Connect" },
+    { "type": "text", "id": "contact_email", "label": "Email", "default": "hello@example.com" },
+    { "type": "text", "id": "contact_phone", "label": "Phone", "default": "+91 00000 00000" },
+    { "type": "url", "id": "instagram", "label": "Instagram link" },
+    { "type": "url", "id": "tiktok", "label": "TikTok link" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,131 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-scroll-story",
+      "settings": {},
+      "blocks": {
+        "scene2_1": {
+          "type": "scene2_card",
+          "settings": {
+            "label": "Detail 01"
+          }
+        },
+        "scene2_2": {
+          "type": "scene2_card",
+          "settings": {
+            "label": "Detail 02"
+          }
+        },
+        "scene2_3": {
+          "type": "scene2_card",
+          "settings": {
+            "label": "Detail 03"
+          }
+        },
+        "scene3_1": {
+          "type": "scene3_card",
+          "settings": {
+            "caption": "Look 01"
+          }
+        },
+        "scene3_2": {
+          "type": "scene3_card",
+          "settings": {
+            "caption": "Look 02"
+          }
+        },
+        "scene3_3": {
+          "type": "scene3_card",
+          "settings": {
+            "caption": "Look 03"
+          }
+        },
+        "scene3_4": {
+          "type": "scene3_card",
+          "settings": {
+            "caption": "Look 04"
+          }
+        },
+        "scene4_1": {
+          "type": "scene4_item",
+          "settings": {
+            "kicker": "City",
+            "title": "Mumbai",
+            "subtext": "Night edit"
+          }
+        },
+        "scene4_2": {
+          "type": "scene4_item",
+          "settings": {
+            "kicker": "City",
+            "title": "Berlin",
+            "subtext": "Late session"
+          }
+        },
+        "scene4_3": {
+          "type": "scene4_item",
+          "settings": {
+            "kicker": "City",
+            "title": "Tokyo",
+            "subtext": "Street cast"
+          }
+        },
+        "scene4_4": {
+          "type": "scene4_item",
+          "settings": {
+            "kicker": "City",
+            "title": "Paris",
+            "subtext": "Morning return"
+          }
+        },
+        "scene6_1": {
+          "type": "scene6_link",
+          "settings": {
+            "label": "Instagram"
+          }
+        },
+        "scene6_2": {
+          "type": "scene6_link",
+          "settings": {
+            "label": "Journal"
+          }
+        },
+        "scene6_3": {
+          "type": "scene6_link",
+          "settings": {
+            "label": "Contact"
+          }
+        }
+      },
+      "block_order": [
+        "scene2_1",
+        "scene2_2",
+        "scene2_3",
+        "scene3_1",
+        "scene3_2",
+        "scene3_3",
+        "scene3_4",
+        "scene4_1",
+        "scene4_2",
+        "scene4_3",
+        "scene4_4",
+        "scene6_1",
+        "scene6_2",
+        "scene6_3"
+      ]
+    },
+    "intro": {
+      "type": "rich-text",
+      "settings": {}
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "intro",
+    "featured"
+  ]
+}

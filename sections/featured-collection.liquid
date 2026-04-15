@@ -1,0 +1,35 @@
+<section class="shop-section">
+  <div class="page-width">
+    <div class="section-heading">
+      <div>
+        {% if section.settings.eyebrow != blank %}<span class="badge">{{ section.settings.eyebrow }}</span>{% endif %}
+        <h2>{{ section.settings.title }}</h2>
+      </div>
+      <p>{{ section.settings.copy }}</p>
+    </div>
+    {% assign collection = collections[section.settings.collection] %}
+    {% if collection != blank and collection.products_count > 0 %}
+      <div class="product-grid">
+        {% for product in collection.products limit: section.settings.products_to_show %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">Choose a collection in the theme customizer to show products here.</div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Featured drop" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Shop the current edit" },
+    { "type": "textarea", "id": "copy", "label": "Copy", "default": "A clean collection section for products, accessories, or a capsule launch." },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_to_show", "min": 4, "max": 12, "step": 1, "label": "Products to show", "default": 8 }
+  ],
+  "presets": [{ "name": "Featured collection" }]
+}
+{% endschema %}

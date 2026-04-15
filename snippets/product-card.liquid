@@ -1,0 +1,20 @@
+<article class="product-card">
+  <a href="{{ product.url }}" class="product-card__media-wrap shop-card">
+    {% if product.featured_media %}
+      <img src="{{ product.featured_media | image_url: width: 900 }}" alt="{{ product.featured_media.alt | escape }}" loading="lazy" width="{{ product.featured_media.width }}" height="{{ product.featured_media.height }}">
+    {% else %}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {% endif %}
+  </a>
+  <div class="product-card__body">
+    <h3 class="product-card__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+    <div class="product-card__meta">
+      {% render 'price', product: product %}
+      {% if product.available %}
+        <span class="badge">In stock</span>
+      {% else %}
+        <span class="text-muted">Sold out</span>
+      {% endif %}
+    </div>
+  </div>
+</article>
