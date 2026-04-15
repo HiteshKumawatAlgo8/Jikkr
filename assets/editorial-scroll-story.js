@@ -81,20 +81,20 @@
       const s6 = sceneOpacity(progress, windows.s6.enterStart, windows.s6.enterEnd, windows.s6.exitStart, windows.s6.exitEnd);
 
       if (hero) {
-        const inT = segment(progress, windows.s1.enterStart, windows.s1.enterEnd);
         const outT = segment(progress, windows.s1.exitStart, windows.s1.exitEnd);
-        hero.style.opacity = String(s1);
+        const heroVisible = clamp(1 - outT, 0, 1);
+        hero.style.opacity = String(heroVisible);
         hero.style.transform = `translate3d(0, ${lerp(8, -18, outT)}%, 0)`;
         if (heroTitle) {
-          heroTitle.style.opacity = String(clamp(inT * 1.15 - outT * 0.12, 0, 1));
+          heroTitle.style.opacity = String(clamp(heroVisible - outT * 0.12, 0, 1));
           heroTitle.style.transform = `translate3d(0, ${lerp(12, -18, outT)}%, 0) scale(${lerp(0.94, 1.04, outT)})`;
         }
         if (heroEyebrow) {
-          heroEyebrow.style.opacity = String(clamp(inT * 1.2 - outT * 0.15, 0, 1));
+          heroEyebrow.style.opacity = String(clamp(heroVisible - outT * 0.15, 0, 1));
           heroEyebrow.style.transform = `translate3d(0, ${lerp(14, -20, outT)}px, 0)`;
         }
         if (heroCard) {
-          heroCard.style.opacity = String(clamp(inT * 1.1 - outT * 0.1, 0, 1));
+          heroCard.style.opacity = String(clamp(heroVisible - outT * 0.1, 0, 1));
           heroCard.style.transform = `translate3d(0, ${lerp(60, -120, outT)}px, 0) scale(${lerp(0.92, 1.05, outT)})`;
         }
         if (heroBg) {
