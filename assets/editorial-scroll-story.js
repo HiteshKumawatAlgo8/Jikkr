@@ -82,23 +82,23 @@
 
       if (hero) {
         const outT = segment(progress, windows.s1.exitStart, windows.s1.exitEnd);
-        const heroVisible = clamp(1 - outT, 0, 1);
+        const heroVisible = clamp(1 - outT * 0.95, 0, 1);
         hero.style.opacity = String(heroVisible);
-        hero.style.transform = `translate3d(0, ${lerp(8, -18, outT)}%, 0)`;
+        hero.style.transform = `translate3d(0, ${lerp(0, -10, outT)}%, 0)`;
         if (heroTitle) {
-          heroTitle.style.opacity = String(clamp(heroVisible - outT * 0.12, 0, 1));
-          heroTitle.style.transform = `translate3d(0, ${lerp(12, -18, outT)}%, 0) scale(${lerp(0.94, 1.04, outT)})`;
+          heroTitle.style.opacity = String(clamp(1 - outT * 1.15, 0, 1));
+          heroTitle.style.transform = `translate3d(0, ${lerp(0, -12, outT)}%, 0) scale(${lerp(1, 1.02, outT)})`;
         }
         if (heroEyebrow) {
-          heroEyebrow.style.opacity = String(clamp(heroVisible - outT * 0.15, 0, 1));
-          heroEyebrow.style.transform = `translate3d(0, ${lerp(14, -20, outT)}px, 0)`;
+          heroEyebrow.style.opacity = String(clamp(1 - outT * 1.2, 0, 1));
+          heroEyebrow.style.transform = `translate3d(0, ${lerp(0, -18, outT)}px, 0)`;
         }
         if (heroCard) {
-          heroCard.style.opacity = String(clamp(heroVisible - outT * 0.1, 0, 1));
-          heroCard.style.transform = `translate3d(0, ${lerp(60, -120, outT)}px, 0) scale(${lerp(0.92, 1.05, outT)})`;
+          heroCard.style.opacity = String(clamp(1 - outT * 1.05, 0, 1));
+          heroCard.style.transform = `translate3d(0, ${lerp(0, -88, outT)}px, 0) scale(${lerp(1, 1.025, outT)})`;
         }
         if (heroBg) {
-          heroBg.style.transform = `translate3d(0, ${lerp(0, -10, progress)}%, 0) scale(${lerp(1.06, 1.02, outT)})`;
+          heroBg.style.transform = `translate3d(0, ${lerp(0, -7, progress)}%, 0) scale(${lerp(1.04, 1.01, outT)})`;
         }
       }
 

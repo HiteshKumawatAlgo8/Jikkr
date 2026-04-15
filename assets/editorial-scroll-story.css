@@ -20,8 +20,8 @@
   top: 0;
   min-height: 100vh;
   display: grid;
-  place-items: center;
-  padding: clamp(14px, 1.2vw, 26px);
+  place-items: start center;
+  padding: 0 clamp(14px, 1.2vw, 26px) clamp(14px, 1.2vw, 26px);
 }
 
 .es-story__frame {
@@ -177,7 +177,7 @@
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  padding-top: clamp(24px, 3vw, 38px);
+  padding-top: clamp(10px, 1.2vw, 18px);
   padding-bottom: clamp(28px, 3vw, 46px);
 }
 
