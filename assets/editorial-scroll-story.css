@@ -209,7 +209,9 @@
 }
 
 .es-story__card-media img,
-.es-story__gallery-strip img {
+.es-story__card-media video,
+.es-story__gallery-strip img,
+.es-story__gallery-strip video {
   width: 100%;
   height: 100%;
   display: block;
@@ -253,25 +255,37 @@
   inset: 0;
 }
 
+.es-story__manifesto-card,
+.es-story__gallery-card,
+.es-story__board-chip,
+.es-story__info-visual {
+  left: var(--es-card-left, auto);
+  right: var(--es-card-right, auto);
+  top: var(--es-card-top, auto);
+  bottom: var(--es-card-bottom, auto);
+  width: var(--es-card-width, auto);
+  height: var(--es-card-height, auto);
+}
+
 .es-story__manifesto-card--1 {
-  width: clamp(150px, 17vw, 230px);
-  height: clamp(190px, 24vw, 330px);
-  left: 5%;
-  top: 16%;
+  --es-card-width: clamp(150px, 17vw, 230px);
+  --es-card-height: clamp(190px, 24vw, 330px);
+  --es-card-left: 5%;
+  --es-card-top: 16%;
 }
 
 .es-story__manifesto-card--2 {
-  width: clamp(160px, 18vw, 250px);
-  height: clamp(120px, 14vw, 180px);
-  right: 7%;
-  top: 20%;
+  --es-card-width: clamp(160px, 18vw, 250px);
+  --es-card-height: clamp(120px, 14vw, 180px);
+  --es-card-right: 7%;
+  --es-card-top: 20%;
 }
 
 .es-story__manifesto-card--3 {
-  width: clamp(180px, 21vw, 300px);
-  height: clamp(200px, 18vw, 260px);
-  left: 34%;
-  bottom: 16%;
+  --es-card-width: clamp(180px, 21vw, 300px);
+  --es-card-height: clamp(200px, 18vw, 260px);
+  --es-card-left: 34%;
+  --es-card-bottom: 16%;
 }
 
 .es-story__floating-label {
@@ -324,38 +338,38 @@
 }
 
 .es-story__gallery-card--1 {
-  width: clamp(170px, 16vw, 230px);
-  height: clamp(210px, 22vw, 310px);
-  left: 28%;
-  top: 23%;
+  --es-card-width: clamp(170px, 16vw, 230px);
+  --es-card-height: clamp(210px, 22vw, 310px);
+  --es-card-left: 28%;
+  --es-card-top: 23%;
 }
 
 .es-story__gallery-card--2 {
-  width: clamp(180px, 20vw, 270px);
-  height: clamp(140px, 14vw, 210px);
-  left: 48%;
-  top: 26%;
+  --es-card-width: clamp(180px, 20vw, 270px);
+  --es-card-height: clamp(140px, 14vw, 210px);
+  --es-card-left: 48%;
+  --es-card-top: 26%;
 }
 
 .es-story__gallery-card--3 {
-  width: clamp(180px, 16vw, 240px);
-  height: clamp(220px, 18vw, 290px);
-  right: 10%;
-  top: 28%;
+  --es-card-width: clamp(180px, 16vw, 240px);
+  --es-card-height: clamp(220px, 18vw, 290px);
+  --es-card-right: 10%;
+  --es-card-top: 28%;
 }
 
 .es-story__gallery-card--4 {
-  width: clamp(150px, 14vw, 210px);
-  height: clamp(180px, 18vw, 260px);
-  left: 16%;
-  bottom: 12%;
+  --es-card-width: clamp(150px, 14vw, 210px);
+  --es-card-height: clamp(180px, 18vw, 260px);
+  --es-card-left: 16%;
+  --es-card-bottom: 12%;
 }
 
 .es-story__gallery-card--5 {
-  width: clamp(170px, 20vw, 280px);
-  height: clamp(180px, 18vw, 250px);
-  right: 20%;
-  bottom: 14%;
+  --es-card-width: clamp(170px, 20vw, 280px);
+  --es-card-height: clamp(180px, 18vw, 250px);
+  --es-card-right: 20%;
+  --es-card-bottom: 14%;
 }
 
 .es-story__gallery-headline {
@@ -399,17 +413,17 @@
 }
 
 .es-story__board-chip--1 {
-  width: 42%;
-  height: 100%;
-  left: 0;
-  top: 0;
+  --es-card-width: 42%;
+  --es-card-height: 100%;
+  --es-card-left: 0;
+  --es-card-top: 0;
 }
 
 .es-story__board-chip--2 {
-  width: 42%;
-  height: 72%;
-  right: 0;
-  bottom: 0;
+  --es-card-width: 42%;
+  --es-card-height: 72%;
+  --es-card-right: 0;
+  --es-card-bottom: 0;
 }
 
 .es-story__dashed-line {
@@ -472,17 +486,17 @@
 }
 
 .es-story__info-visual--1 {
-  right: 0;
-  top: 0;
-  width: 48%;
-  height: 72%;
+  --es-card-right: 0;
+  --es-card-top: 0;
+  --es-card-width: 48%;
+  --es-card-height: 72%;
 }
 
 .es-story__info-visual--2 {
-  right: 14%;
-  bottom: 0;
-  width: 40%;
-  height: 48%;
+  --es-card-right: 14%;
+  --es-card-bottom: 0;
+  --es-card-width: 40%;
+  --es-card-height: 48%;
 }
 
 .es-story__return-headline {
